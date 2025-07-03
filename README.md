@@ -2,6 +2,9 @@
 
 A Node.js web application for a members-only club, featuring user registration, authentication, blog posting, membership quizzes, and admin privileges.
 
+# App URL
+https://members-club-production-80bf.up.railway.app/login
+
 ## Features
 
 - User registration and login with hashed passwords

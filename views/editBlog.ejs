@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=title%></title>
+    <style>
+      /* Basic Reset & Body Styles */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f7f6;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; /* Align to top for longer forms */
+        min-height: 100vh; /* Full viewport height */
+        box-sizing: border-box;
+      }
+
+      /* Container for the form (implicit, as there's no div wrapper here, but we can style body/form directly) */
+      form {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px; /* Max width for larger screens */
+        box-sizing: border-box;
+        display: flex; /* Make form a flex container */
+        flex-direction: column;
+        gap: 15px; /* Space between form elements */
+      }
+
+      h3 {
+        text-align: center;
+        color: #0056b3;
+        margin-bottom: 25px;
+      }
+
+      label {
+        display: flex;
+        flex-direction: column;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #555;
+      }
+
+      input[type="text"],
+      textarea {
+        width: 100%;
+        padding: 12px;
+        margin-top: 5px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+      }
+
+      input[type="text"]:focus,
+      textarea:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+      }
+
+      textarea {
+        min-height: 150px; /* Sufficient height for content */
+        resize: vertical; /* Allow vertical resizing */
+      }
+
+      button[type="submit"] {
+        background-color: #28a745; /* Green for update */
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-top: 20px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #218838;
+        transform: translateY(-2px);
+      }
+
+      button[type="submit"]:active {
+        transform: translateY(0);
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 600px) {
+        body {
+          padding: 15px;
+        }
+
+        form {
+          padding: 20px;
+        }
+
+        h3 {
+          font-size: 1.5rem;
+          margin-bottom: 20px;
+        }
+
+        button[type="submit"] {
+          font-size: 1rem;
+          padding: 10px 15px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        body {
+          padding: 10px;
+        }
+        form {
+            padding: 15px;
+        }
+      }
+    </style>
+</head>
+<body>
+    <h3>Edit Your Post</h3>
+    <form action="/edit/<%=blog.id%>" method="post">
+        <label>Title:
+            <input type="text" name="title" value="<%=blog.title%>" placeholder="Title">
+        </label>
+        <label>Content:
+            <textarea name="content" required><%=blog.content%></textarea>
+        </label>
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>

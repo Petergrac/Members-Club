@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%=title %></title>
+    <style>
+      /* Basic Reset & Body Styles */
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f0f2f5; /* Light grey background */
+        color: #333;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center; /* Center content vertically */
+        min-height: 100vh; /* Full viewport height */
+        box-sizing: border-box;
+      }
+      .loginz{
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        background: #29acf3;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        padding: 8px 0;
+      }
+      .loginz:hover{
+        transform: translateY(-2px);
+        transition: all .4s;
+      }
+      /* Form Container (applies to both register and login forms) */
+      form {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 450px; /* Max width for forms */
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 15px; /* Space between form elements */
+      }
+
+      h3 { /* For "Enter Your Email & Password To Login." */
+        text-align: center;
+        color: #0056b3;
+        margin-bottom: 25px;
+        font-size: 1.8rem;
+      }
+
+      /* Form Labels */
+      label {
+        display: flex;
+        flex-direction: column;
+        font-weight: bold;
+        color: #555;
+      }
+
+      /* Form Inputs */
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        margin-top: 5px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+      }
+
+      input[type="text"]:focus,
+      input[type="email"]:focus,
+      input[type="password"]:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+      }
+
+      /* Buttons */
+      button[type="submit"] {
+        background-color: #007bff; /* Blue for submit buttons */
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-top: 20px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+      .regz{
+        color: #007bff;
+      }
+      button[type="submit"]:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+      }
+
+      button[type="submit"]:active {
+        transform: translateY(0);
+      }
+
+      /* Error Messages (both registration and login) */
+      p[style="color: red"] {
+        text-align: center;
+        font-weight: bold;
+        margin: 10px 0;
+        padding: 8px;
+        border-radius: 4px;
+        background-color: #f8d7da; /* Light red background */
+        border: 1px solid #f5c6cb;
+        color: #721c24; /* Darker red text */
+        box-sizing: border-box;
+        width: 100%; /* Ensure it spans the form width */
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 600px) {
+        body {
+          padding: 15px;
+          align-items: flex-start; /* Align to top on smaller screens if content gets longer */
+        }
+
+        form {
+          padding: 20px;
+          max-width: 100%; /* Allow form to take full width */
+        }
+
+        h3 {
+          font-size: 1.5rem;
+          margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+          padding: 10px;
+          font-size: 0.95rem;
+        }
+
+        button[type="submit"] {
+          font-size: 1rem;
+          padding: 10px 15px;
+          margin-top: 15px;
+        }
+
+        p[style="color: red"] {
+            font-size: 0.9rem;
+            padding: 6px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        body {
+          padding: 10px;
+        }
+        form {
+            padding: 15px;
+        }
+        h3 {
+            font-size: 1.3rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <%if(title==='Join Now'){%>
+      <h2 class="regz"><p>Register Here</p></h2>
+    <form action="/register" method="post">
+      <label>
+        First Name:
+        <input type="text" name="firstName" placeholder="First Name" required />
+      </label>
+      <label>
+        Last Name:
+        <input type="text" name="lastName" placeholder="Last Name" required />
+      </label>
+      <label>
+        Email:
+        <input
+          type="email"
+          name="email"
+          placeholder="example12@gmail.com"
+          required
+        />
+      </label>
+      <label for="password">
+        Password:
+        <input
+          id="password"
+          name="password"
+          type="password"
+          placeholder="Your Password"
+          required
+        />
+      </label>
+      <label for="confirmPass">
+        Confirm Password:
+        <input
+          id="confirmPass"
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          required
+        />
+      </label>
+      <% if(errors){%> 
+        <% errors.forEach(error=>{%>
+      <p style="color: red"><%=error.msg%></p>
+      <%})%> 
+    <%}%>
+    <a class="loginz" href="/login">Login</a>
+      <button type="submit">Register</button>
+    </form>
+    
+    <%} else {%>
+    <h3>Enter Your Email & Password To Login.</h3>
+    <form action="/login" method="post">
+      <label for="loginEmail">
+        Email:
+        <input
+          type="email"
+          name="userEmail"
+          id="loginEmail" placeholder="Your email"
+          required
+        />
+      </label>
+      <label for="loginPassword">
+        Password:
+        <input
+          type="password"
+          name="userPassword"
+          id="loginPassword" required
+          placeholder="Your Password"
+        />
+      </label>
+      <a class="loginz" href="/register">Register</a>
+      <button type="submit">Login</button>
+    </form>
+    <% if (errorLogin && errorLogin.length) { %>
+      <% errorLogin.forEach(function(error) { %>
+        <p style="color: red;"><%= error %></p>
+      <% }); %>
+    <% } %>
+    <%}%>
+  </body>
+</html>

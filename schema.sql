@@ -1,0 +1,18 @@
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  first_name TEXT NOT NULL,
+  last_name TEXT NOT NULL,
+  email TEXT UNIQUE NOT NULL,
+  password TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   member_status BOOLEAN DEFAULT false NOT NULL,
+  admin_status BOOLEAN DEFAULT false,
+);
+
+CREATE TABLE messages (
+  id SERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  content TEXT NOT NULL,
+  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  user_id INTEGER NOT NULL REFERENCES users(id)
+);

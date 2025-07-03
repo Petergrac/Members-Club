@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%=title%></title>
+     <style>
+      /* Basic Reset & Body Styles */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f7f6;
+        color: #333;
+        line-height: 1.6;
+        box-sizing: border-box;
+      }
+
+      h1, h3 {
+        text-align: center;
+        color: #0056b3;
+        margin-bottom: 15px;
+      }
+
+      h1 {
+          margin-top: 20px;
+          font-size: 2.5rem;
+      }
+
+      h3 {
+          font-size: 1.2rem;
+          color: #555;
+      }
+
+      /* Blog List Container */
+      div {
+        background-color: #ffffff;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 30px;
+        margin-bottom: 30px;
+        max-width: 800px; /* Max width for readability */
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+      }
+
+      div p {
+          text-align: center;
+          color: #777;
+          font-size: 1.1rem;
+          margin: 20px 0;
+      }
+
+      /* Individual Blog Post Style */
+      h4 {
+        color: #333;
+        margin-top: 25px;
+        margin-bottom: 8px;
+        font-size: 1.6rem;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
+      }
+
+      h4:first-of-type {
+          margin-top: 0; /* No top margin for the first blog title */
+      }
+
+      div > p:not([style]) { /* Target content paragraph directly within the div, excluding the "no blogs" message */
+        color: #444;
+        margin-bottom: 15px;
+        text-align: left; /* Ensure content is left-aligned */
+      }
+
+      p[style="font-style: italic;"] { /* Style for the anonymous tag */
+        text-align: right;
+        color: #777;
+        font-size: 0.9em;
+        margin-top: -10px; /* Adjust spacing with content above */
+        margin-bottom: 20px;
+      }
+
+      /* Links (Register/Login) */
+      a {
+        display: inline-block; /* Allows margin/padding and responsiveness */
+        background-color: #007bff;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        margin: 0 10px 10px 10px; /* Spacing between links */
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+
+      a:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+      }
+
+      a:active {
+        transform: translateY(0);
+      }
+
+      /* Center links on the page */
+      .links-container { /* Add a new div to wrap your links for centering */
+          text-align: center;
+          margin-top: 30px;
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2rem;
+        }
+
+        h4 {
+          font-size: 1.4rem;
+        }
+
+        div {
+            padding: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 15px;
+        }
+
+        h1 {
+          font-size: 1.8rem;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+        }
+
+        h4 {
+          font-size: 1.2rem;
+        }
+
+        div {
+            padding: 15px;
+        }
+
+        a {
+            display: block; /* Stack links vertically on small screens */
+            width: fit-content;
+            margin: 10px auto; /* Center individual links */
+            padding: 10px 15px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        body {
+          padding: 10px;
+        }
+        h1 {
+            font-size: 1.6rem;
+        }
+        h4 {
+            font-size: 1.1rem;
+        }
+        div {
+            padding: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to the Membership Blog</h1>
+    <h3>Register or Login to Add Blogs</h3>
+    <div>
+      <% if(!blogs){%>
+      <p>There are no blogs at this time</p>
+      <%} else{%> <% blogs.map(blog=>{%>
+        <h4><%=blog.title%></h4>
+        <p><%=blog.content%></p>
+        <p style="font-style: italic;">---anonymous</p>
+      <%})%> <%}%>
+    </div>
+    <div class="links-container">
+      <a href="/register">Register Here</a>
+      <a href="/login">Login Here</a>
+    </div>
+  </body>
+</html>

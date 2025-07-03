@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%=title%></title>
+    <style>
+      /* Basic Reset & Body Styles */
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f0f2f5; /* Light grey background */
+        color: #333;
+        line-height: 1.6;
+        box-sizing: border-box;
+      }
+
+      /* Global Heading Styles */
+      h3 {
+        color: #0056b3;
+        text-align: center;
+        margin-top: 25px;
+        margin-bottom: 15px;
+        font-size: 3rem;
+      }
+
+      h4 {
+        color: #333;
+        font-size: 1.5rem;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
+      }
+
+      strong {
+          color: #007bff;
+      }
+
+      /* Logout Button */
+      form[action="/logout"] {
+        text-align: right; /* Aligns the logout button to the right */
+        margin-bottom: 20px;
+      }
+
+      form[action="/logout"] button {
+        background-color: #dc3545; /* Red for logout */
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background-color 0.3s ease;
+      }
+
+      form[action="/logout"] button:hover {
+        background-color: #c82333;
+      }
+
+      /* Main Content Containers */
+      body > div { /* Targets the direct child divs of the body for main sections */
+        background-color: #ffffff;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin: 20px auto; /* Center main sections with vertical spacing */
+        max-width: 900px;
+        box-sizing: border-box;
+      }
+
+      /* Specific Blog Sections (Your Blogs, All Blogs) */
+      .blog-section-container { /* Added a class for better targeting, assuming the nested divs are for blog lists */
+          padding: 15px;
+          border: 1px solid #e0e0e0;
+          border-radius: 6px;
+          background-color: #fdfdfd;
+          margin-top: 15px;
+      }
+
+      /* Individual Blog Post Styles */
+      .blog-post { /* Added a class for individual posts for better styling */
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px dashed #e9ecef;
+      }
+
+      .blog-post:last-child {
+          border-bottom: none; /* No border for the last post */
+          margin-bottom: 0;
+          padding-bottom: 0;
+      }
+
+      .blog-post h4 {
+        font-size: 1.3rem;
+        color: #007bff; /* Blue for blog titles */
+        margin-top: 0;
+        margin-bottom: 8px;
+        border-bottom: none; /* Remove border from post titles */
+      }
+
+      .blog-post p {
+        margin-bottom: 5px;
+        color: #444;
+      }
+
+      .blog-post p:last-of-type { /* For timestamp/author */
+          font-size: 0.9em;
+          color: #777;
+          text-align: right;
+          margin-top: 10px;
+      }
+
+      /* No Blogs Message */
+      .blog-section-container p {
+          text-align: center;
+          color: #777;
+          font-style: italic;
+      }
+
+      h5 { /* No blogs available message */
+          text-align: center;
+          color: #999;
+          font-style: italic;
+          font-size: 1rem;
+      }
+
+      /* Admin Buttons (Edit/Delete) */
+      .blog-post form {
+        display: inline-block; /* Keep buttons on the same line */
+        margin-left: 10px;
+      }
+
+      .blog-post form button {
+        background-color: #17a2b8; /* Info blue for edit */
+        color: white;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        margin-right: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      .blog-post form[action*="delete"] button {
+        background-color: #dc3545; /* Red for delete */
+      }
+
+      .blog-post form button:hover {
+        opacity: 0.9;
+      }
+
+      /* Create Blog Link */
+      a[href="/create-post"] {
+        display: block; /* Make it a block element to center it */
+        width: fit-content;
+        margin: 25px auto; /* Center horizontally */
+        background-color: #28a745; /* Green for creation */
+        color: white;
+        padding: 12px 25px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.1rem;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+
+      a[href="/create-post"]:hover {
+        background-color: #218838;
+        transform: translateY(-2px);
+      }
+
+      a[href="/create-post"]:active {
+        transform: translateY(0);
+      }
+
+      /* Membership Form Section */
+      .membership-section h4 {
+        text-align: center;
+        border-bottom: none;
+        margin-bottom: 20px;
+      }
+
+      .membership-section span p { /* Targeting the note under admin request */
+          display: inline; /* Keep it on the same line as "Note:" */
+          margin-left: 5px;
+          font-size: 0.9em;
+          color: #666;
+      }
+
+      .membership-section form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px; /* Space between form elements */
+        padding: 15px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        background-color: #fdfdfd;
+      }
+
+      .membership-section label {
+        font-weight: bold;
+        color: #555;
+      }
+
+      .membership-section input[type="text"],
+      .membership-section textarea {
+        width: calc(100% - 24px); /* Full width minus padding */
+        padding: 12px;
+        margin-top: 5px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+      }
+
+      .membership-section input[type="text"]:focus,
+      .membership-section textarea:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+      }
+
+      .membership-section textarea {
+          min-height: 80px;
+          resize: vertical;
+      }
+
+      .membership-section button[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: bold;
+        margin-top: 15px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+
+      .membership-section button[type="submit"]:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+      }
+
+      .membership-section button[type="submit"]:active {
+        transform: translateY(0);
+      }
+
+      /* Membership status messages */
+      .membership-status {
+          text-align: center;
+          margin: 20px 0;
+          font-size: 1.1rem;
+          color: #555;
+      }
+
+      /* Messages (Error/Success) */
+      p[style="color: red"],
+      p[style="color: green"] {
+        text-align: center;
+        font-weight: bold;
+        margin: 10px 0;
+        padding: 8px; .loginz{
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        background: #29acf3;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        padding: 8px 0;
+      }
+        border-radius: 4px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+      }
+
+      p[style="color: red"] {
+        background-color: #f8d7da; /* Light red background */
+        border: 1px solid #f5c6cb;
+        color: #721c24; /* Darker red text */
+      }
+
+      p[style="color: green"] {
+        background-color: #d4edda; /* Light green background */
+        border: 1px solid #c3e6cb;
+        color: #155724; /* Darker green text */
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 768px) {
+        body {
+          padding: 15px;
+        }
+
+        body > div {
+          padding: 20px;
+          margin: 15px auto;
+        }
+
+        h3 {
+          font-size: 1.6rem;
+        }
+
+        h4 {
+          font-size: 1.3rem;
+        }
+
+        .blog-post h4 {
+            font-size: 1.2rem;
+        }
+
+        a[href="/create-post"] {
+            padding: 10px 20px;
+            font-size: 1rem;
+        }
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 10px;
+        }
+
+        body > div {
+          padding: 15px;
+          margin: 10px auto;
+        }
+
+        h3 {
+          font-size: 1.4rem;
+        }
+
+        h4 {
+          font-size: 1.2rem;
+        }
+
+        .blog-post h4 {
+            font-size: 1.1rem;
+        }
+
+        .blog-post form {
+            display: block; /* Stack admin buttons vertically */
+            margin-left: 0;
+            margin-top: 10px;
+        }
+
+        .blog-post form button {
+            width: 100%;
+            margin-bottom: 5px; /* Space between stacked buttons */
+        }
+
+        .membership-section input[type="text"],
+        .membership-section textarea {
+            padding: 10px;
+            font-size: 0.95rem;
+        }
+
+        .membership-section button[type="submit"] {
+            padding: 10px 15px;
+            font-size: 0.95rem;
+        }
+
+        a[href="/create-post"] {
+            padding: 8px 15px;
+            font-size: 0.95rem;
+        }
+
+        p[style="color: red"],
+        p[style="color: green"] {
+            font-size: 0.9rem;
+            padding: 6px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        body {
+          padding: 8px;
+        }
+        body > div {
+            padding: 10px;
+        }
+        h3 {
+            font-size: 1.2rem;
+        }
+        h4 {
+            font-size: 1.1rem;
+        }
+        .blog-post h4 {
+            font-size: 1rem;
+        }
+        form[action="/logout"] button {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+        .blog-post form button {
+            font-size: 0.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Welcome: <strong><%=user.first_name%></strong></h3>
+    <form action="/logout" method="get">
+      <button type="submit">Logout</button>
+    </form>
+
+    <div>
+      <% if(isMember){%>
+      <h4>Your Blogs</h4>
+      <div class="blog-section-container">
+        <% if(!blogs || blogs.length === 0){%>
+        <p>You haven't submitted any blog.</p>
+        <%}else{%>
+          <% blogs.map((blog) => { %>
+          <div class="blog-post">
+            <h4><%= blog.title %></h4>
+            <p><%= blog.content %></p>
+            <p><%= blog.timestamp.toLocaleString()%></p>
+            <p>---<%=user.first_name%></p>
+            <%if(isAdmin){%>
+            <form action="/edit/<%=blog.id %>" method="get">
+              <button type="submit">Edit(admin)</button>
+            </form>
+            <form action="/delete/<%=blog.id %>" method="post">
+              <button type="submit">Delete(admin)</button>
+            </form>
+            <%}%>
+          </div>
+          <% }) %>
+        <%}%>
+      </div>
+      <%}%>
+    </div>
+
+    <div>
+      <h3>All Blogs</h3>
+      <div class="blog-section-container">
+        <% if(allBlogs && allBlogs.length > 0){%>
+          <% allBlogs.map(post =>{%>
+          <div class="blog-post">
+            <h4><%=post.title%></h4>
+            <p><%=post.content%></p>
+            <% if(isMember){%>
+            <p><%=post.timestamp.toLocaleString()%></p>
+            <p>---<%=user.first_name%></p>
+            <%} else{%>
+            <p>---anonymous</p>
+            <%}%>
+            <%if(isAdmin){%>
+            <form action="/edit/<%=post.id %>" method="get">
+              <button type="submit">Edit(admin)</button>
+            </form>
+            <form action="/delete/<%=post.id %>" method="post">
+              <button type="submit">Delete(admin)</button>
+            </form>
+            <%}%>
+          </div>
+          <%})%>
+        <%} else{%>
+        <h5>No blogs are available</h5>
+        <%}%>
+      </div>
+    </div>
+
+    <a href="/create-post">Create a blog</a>
+
+    <div class="membership-section">
+      <% if(message){%>
+        <p class="membership-status"><%=message %></p>
+        <form action="/membership" method="post">
+          <label>
+            What is 2 + 2?
+            <input type="text" name="q1" required />
+          </label><br />
+          <label>
+            What color is the sky on a clear day?
+            <input type="text" name="q2" required />
+          </label><br />
+          <label>
+            Type the word "clubhouse":
+            <input type="text" name="q3" required />
+          </label><br />
+          <button type="submit">Submit Answers</button>
+        </form>
+      <%} else{%>
+        <p class="membership-status">You are now a member of the Clubhouse</p>
+        <p class="membership-status">Post a new blog</p>
+      <%}%>
+    </div>
+
+    <% if(!isAdmin){%>
+    <div class="membership-section"> <form action="/admin" method="post">
+            <h4>Request Admin Privilege</h4>
+            <strong>Note:</strong
+            ><span><p>You must be a member in order to be an Admin.</p></span>
+            <label>
+                Why do you want to be an admin?
+                <textarea name="adminReason" required></textarea>
+            </label>
+            <button type="submit">Request Admin</button>
+        </form>
+    </div>
+    <%}%>
+
+    <% if (messages.error && messages.error.length) { %>
+      <% messages.error.forEach(msg => { %>
+      <p style="color: red"><%= msg %></p>
+      <% }) %>
+    <% } %>
+    <% if (messages.success && messages.success.length) { %>
+      <% messages.success.forEach(msg => { %>
+      <p style="color: green"><%= msg %></p>
+      <% }) %>
+    <% } %>
+  </body>
+</html>

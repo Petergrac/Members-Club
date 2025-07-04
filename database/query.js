@@ -1,19 +1,27 @@
 const pool = require("./pool");
 
-// Get all Blogs
+// Get all Blogs with author name
 async function getAllBlogs() {
   const blogs = await pool.query(
-    `SELECT id,title,content,timestamp FROM messages`
+    `SELECT messages.user_id, 
+            messages.id, 
+            messages.title, 
+            messages.content, 
+            messages.timestamp, 
+            users.first_name,
+            users.last_name
+     FROM messages
+     JOIN users 
+     ON messages.user_id = users.id`
   );
   return blogs.rows;
 }
 
 // Get blogs for a certain user
 async function getAllBlogsById(id) {
-  const blogs = await pool.query(
-    `SELECT * FROM messages WHERE user_id=$1`,
-    [id]
-  );
+  const blogs = await pool.query(`SELECT * FROM messages WHERE user_id=$1`, [
+    id,
+  ]);
   return blogs.rows;
 }
 
@@ -67,19 +75,16 @@ async function checkMembership(id) {
 }
 
 // Adding an admin
-async function addAdmin(id){
-  await pool.query(
-    "UPDATE users SET admin_status = $1 WHERE id=$2",
-    [true, id]
-  );
+async function addAdmin(id) {
+  await pool.query("UPDATE users SET admin_status = $1 WHERE id=$2", [
+    true,
+    id,
+  ]);
 }
 
 // Adding a member
 async function addMembership(id) {
-  await pool.query(
-    "UPDATE users SET member_status=$1 WHERE id=$2",
-    [true, id]
-  );
+  await pool.query("UPDATE users SET member_status=$1 WHERE id=$2", [true, id]);
 }
 //----------------------  POST MANAGEMENT ------------------//
 // Create a post
@@ -104,8 +109,8 @@ async function updateBlog(id, title, content) {
   ]);
 }
 // Delete blog
-async function deleteBlog(id){
-  await pool.query('DELETE FROM messages WHERE id=$1',[id]);
+async function deleteBlog(id) {
+  await pool.query("DELETE FROM messages WHERE id=$1", [id]);
 }
 
 // Export the functions
@@ -123,5 +128,5 @@ module.exports = {
   getTheBlog,
   updateBlog,
   deleteBlog,
-  addAdmin
+  addAdmin,
 };

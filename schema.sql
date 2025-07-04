@@ -5,7 +5,7 @@ CREATE TABLE users (
   email TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-   member_status BOOLEAN DEFAULT false NOT NULL,
+  member_status BOOLEAN DEFAULT false NOT NULL,
   admin_status BOOLEAN DEFAULT false,
 );
 

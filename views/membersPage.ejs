@@ -449,7 +449,7 @@
             <p><%=post.content%></p>
             <% if(isMember){%>
             <p><%=post.timestamp.toLocaleString()%></p>
-            <p>---<%=user.first_name%></p>
+            <p>---<%=post.first_name%></p>
             <%} else{%>
             <p>---anonymous</p>
             <%}%>

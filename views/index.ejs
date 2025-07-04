@@ -178,7 +178,6 @@
       <% if(!blogs){%>
       <p>There are no blogs at this time</p>
       <%} else{%> <% blogs.map(blog=>{%>
-        <h4><%=blog.title%></h4>
         <p><%=blog.content%></p>
         <p style="font-style: italic;">---anonymous</p>
       <%})%> <%}%>

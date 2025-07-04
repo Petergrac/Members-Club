@@ -44,9 +44,9 @@ router.get("/create-post", auths.isAuth, (req, res) => {
 router.post("/new", auths.isAuth, controllers.newBlog);
 // Edit a post
 router
-  .route("/edit/:id", auths.isAuth)
-  .get(controllers.editBlog)
-  .post(controllers.updateBlog);
+  .route("/edit/:id")
+  .get(auths.isAuth,controllers.editBlog)
+  .post(auths.isAuth,controllers.updateBlog);
 router.post("/delete/:id", auths.isAuth, controllers.deletePost);
 // Logout
 router.get("/logout", auths.isAuth, controllers.logoutUser);
